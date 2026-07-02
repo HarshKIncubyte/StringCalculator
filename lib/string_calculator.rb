@@ -13,9 +13,13 @@ class StringCalculator
   def self.extract_delimiter(numbers)
     return [/,|\n/, numbers] unless numbers.start_with?('//')
 
-    delimiter = numbers[2] == '[' ? numbers[3...-1].split(']').first : numbers[2]
-    numbers = numbers.split("\n", 2).last
+    header, numbers = numbers.split("\n", 2)
+    delimiter = parse_delimiter(header[2..])
     [delimiter, numbers]
+  end
+
+  def self.parse_delimiter(header)
+    header.start_with?('[') ? header[1..-2] : header
   end
 
   def self.validate_negatives(nums)
