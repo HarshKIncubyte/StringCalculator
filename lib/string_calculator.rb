@@ -3,7 +3,8 @@
 class StringCalculator
   def self.add(numbers)
     delimiter, numbers = extract_delimiter(numbers)
-    nums = numbers.split(delimiter).map(&:to_i).reject { |n| n > 1000 }
+    nums = numbers.split(delimiter).map(&:to_i)
+    nums = filter_large_numbers(nums)
     validate_negatives(nums)
 
     nums.sum
@@ -22,5 +23,9 @@ class StringCalculator
     raise ArgumentError, "negative numbers not allowed: #{negatives.join(', ')}" if negatives.any?
   end
 
-  private_class_method :extract_delimiter, :validate_negatives
+  def self.filter_large_numbers(nums)
+    nums.reject { |n| n > 1000 }
+  end
+
+  private_class_method :extract_delimiter, :validate_negatives, :filter_large_numbers
 end
